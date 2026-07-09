@@ -1,8 +1,22 @@
 from openpyxl import load_workbook
 
-workbook = load_workbook("data/model_v14.xlsx")
+def read_excel(file_path):
 
-sheet = workbook.active
+    workbook = load_workbook(file_path)
+    sheet = workbook.active
 
-print(sheet["A2"].value)
-print(sheet["B2"].value)
+    model_data = {}
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        field = row[0]
+        value = row[1]
+        notes = row[2]
+
+        model_data[field] = {
+            "value": value,
+            "notes": notes
+        }
+
+    return model_data
+
+
